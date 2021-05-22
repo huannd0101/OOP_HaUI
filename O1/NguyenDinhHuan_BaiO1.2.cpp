@@ -61,6 +61,7 @@ public:
 
 void PHIEU::Nhap(){
     sv.Nhap();
+    cin.ignore();
     cout << "Nhap so mon: ";    cin >> n;
     x = new MON[n];
     for(int i=0; i<n; i++){
@@ -97,9 +98,9 @@ void Bonus2(PHIEU a){
     cout << "Nhap vi tri chen: ";   
     do {
         cin >> pos;
-        if(pos < 1 || pos >= a.n)
+        if(pos < 1 || pos > a.n + 1)
             cout << "Nhap lai vi tri: ";
-    }while(pos < 1 || pos > a.n);
+    }while(pos < 1 || pos > a.n + 1);
     MON temp;
     temp.Nhap();
     a.n++;
