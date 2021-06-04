@@ -1,5 +1,4 @@
-#include<iostream>
-#include<stdlib.h>
+#include<bits\stdc++.h>
 
 using namespace std;
 
@@ -93,8 +92,6 @@ using namespace std;
 // }
 
 //--------------Câu 2:
-#include<string.h>
-#include<iomanip>
 
 class Xe {
 protected:
@@ -104,7 +101,7 @@ protected:
   int namDangKy;
 public:
   Xe();
-  Xe(char mauSOn[], char bienSo[], char noiDangKy[], int namDangKy);
+  Xe(char *mauSOn, char *bienSo, char *noiDangKy, int namDangKy);
   ~Xe();
   void Nhap();
   void Xuat();
@@ -116,20 +113,21 @@ private:
   char chungMinhThu[30];
 public:
   ChuSoHuu();
-  ChuSoHuu(char tenChuSoHuu[], char chungMinhThu[]);
+  ChuSoHuu(char tenChuSoHuu[], char chungMinhThu[], char mauSOn[], char bienSo[], char noiDangKy[], int namDangKy);
   ~ChuSoHuu();
   void Nhap();
   void Xuat();
+  friend void XuatDanhSach(ChuSoHuu *a, int n, char *noiDangKyXe);
 };
 
 Xe::Xe(){
-  strcpy(mauSon, NULL);
-  strcpy(bienSo, NULL);
-  strcpy(noiDangKy, NULL);
+  strcpy(mauSon, "");
+  strcpy(bienSo, "");
+  strcpy(noiDangKy, "");
   namDangKy = 0;
 }
 
-Xe::Xe(char mauSOn[], char bienSo[], char noiDangKy[], int namDangKy){
+Xe::Xe(char *mauSOn, char *bienSo, char *noiDangKy, int namDangKy){
   strcpy(this->mauSon, mauSOn);
   strcpy(this->bienSo, bienSo);
   strcpy(this->noiDangKy, noiDangKy);
@@ -137,9 +135,9 @@ Xe::Xe(char mauSOn[], char bienSo[], char noiDangKy[], int namDangKy){
 }
 
 Xe::~Xe() {
-  strcpy(mauSon, NULL);
-  strcpy(bienSo, NULL);
-  strcpy(noiDangKy, NULL);
+  strcpy(mauSon, "");
+  strcpy(bienSo, "");
+  strcpy(noiDangKy, "");
   namDangKy = 0;
 }
 
@@ -151,6 +149,59 @@ void Xe::Nhap(){
 }
 
 void Xe::Xuat(){
-  cout << left << setw(30) << mauSon << setw(30) << bienSo << setw(30) << noiDangKy 
-    << setw(15) << namDangKy << endl;
+  cout << left << setw(30) << mauSon << setw(30) << bienSo << setw(30) << noiDangKy << setw(15) << namDangKy << endl;
+}
+
+ChuSoHuu::ChuSoHuu() : Xe(){
+  strcpy(tenChuSoHuu, "");
+  strcpy(chungMinhThu, "");
+}
+
+ChuSoHuu::ChuSoHuu(char tenChuSoHuu[], char chungMinhThu[], char mauSOn[], char bienSo[], char noiDangKy[], int namDangKy) : Xe(mauSOn, bienSo, noiDangKy, namDangKy) {
+  strcpy(this->tenChuSoHuu, tenChuSoHuu);
+  strcpy(this->chungMinhThu, chungMinhThu);
+}
+
+ChuSoHuu::~ChuSoHuu(){
+  strcpy(tenChuSoHuu, "");
+  strcpy(chungMinhThu, "");
+}
+
+void ChuSoHuu::Nhap(){
+  cout << "Nhap ten chu so huu: "; fflush(stdin); gets(tenChuSoHuu);
+  cout << "Nhap chung minh thu: "; fflush(stdin); gets(chungMinhThu);
+  Xe::Nhap();
+}
+
+void ChuSoHuu::Xuat(){
+  cout << left << setw(30) << tenChuSoHuu << setw(30) << chungMinhThu;
+  Xe::Xuat();
+}
+
+void NhapDanhSach(ChuSoHuu *a, int n){
+  for(int i=0; i<n; i++){
+    cout << "Nhap thong tin chu so huu thu " << i + 1 << endl;
+    a[i].Nhap();
+  }
+}
+
+void XuatDanhSach(ChuSoHuu *a, int n, char *noiDangKyXe){
+  for(int i=0; i<n; i++){
+    if(stricmp(a[i].noiDangKy, noiDangKyXe) == 0){
+      a[i].Xuat();
+    }
+  }
+}
+
+int main(){
+  int n;
+  cout << "Nhap n = ";  cin >> n;
+  ChuSoHuu *a = new ChuSoHuu[n];
+
+  NhapDanhSach(a, n);
+
+  cout << left << setw(30) << "Ten Chu" << setw(30) << "CMT" << setw(30) << "Mau Son" << setw(30) << "Bien So" << setw(30) << "Noi DK" << setw(15) << "Nam DK" << endl;
+  XuatDanhSach(a, n, "Ha Noi");
+
+  return 0;
 }
